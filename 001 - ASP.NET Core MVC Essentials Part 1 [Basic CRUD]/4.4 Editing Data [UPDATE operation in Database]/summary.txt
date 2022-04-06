@@ -1,0 +1,90 @@
+--------------------------------------------------------------------------
+1. /Controllers/CategoryController.cs
+--------------------------------------------------------------------------
+
+ // GET for Edit_View
+        public IActionResult Edit(int? Id)
+        {
+            if (Id == null || Id == 0)
+            {
+                return NotFound();
+            }
+            
+                var categoryFromDb = _db.Categories.Find(Id);
+                
+                if (categoryFromDb == null)
+                {
+                    return NotFound();
+                }
+            
+            return View(categoryFromDb);
+        }
+
+ // POST for Edit_View
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category any_name_obj)
+        {
+            if (any_name_obj.Name == any_name_obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("Name", "Name and Order cannot be same.");
+                ModelState.AddModelError("DisplayOrder", "Name and Order cannot be same.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                
+                _db.Categories.Update(any_name_obj);
+
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(any_name_obj);
+            }
+        }
+		
+
+--------------------------------------------------------------------------
+2. /Views/Category/Edit.cshtml
+--------------------------------------------------------------------------
+
+<h2>Edit Category</h2>
+<!-- This DIV is to show All Form Validation Error Messages, if any occurs -->
+<div asp-validation-summary="All"></div>
+<form method="post">
+    <label asp-for="Name"></label> <br />
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span> <br /><br />
+
+    <label asp-for="DisplayOrder"></label> <br />
+    <input asp-for="DisplayOrder" class="form-control" />
+    <span asp-validation-for="DisplayOrder" class="text-danger"></span><br /><br />
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+
+
+--------------------------------------------------------------------------
+3. /Views/Category/Index.cshtml
+--------------------------------------------------------------------------
+
+
+   <! –– FOREACH LOOP ––>
+    @foreach (var obj in Model)
+    {
+        <tr>
+            <td width="50%">@obj.Name</td>
+            <td width="50%">@obj.DisplayOrder</td>
+            <td>
+
+<a asp-controller="Category" asp-action="Edit" asp-route-Id="@obj.Id">Edit</a>
+
+            </td>
+        </tr>
+
+    }
+
+	
+	

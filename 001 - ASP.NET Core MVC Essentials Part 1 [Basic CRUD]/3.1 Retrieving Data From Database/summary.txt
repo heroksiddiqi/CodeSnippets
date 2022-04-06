@@ -1,0 +1,61 @@
+--------------------------------------------------------------------------
+1. /Controllers/CategoryController.cs
+--------------------------------------------------------------------------
+	
+		public class CategoryController : Controller
+    {
+        // Start
+        
+        private readonly ApplicationDbContext _db; //imported App_Name.Data
+
+        public CategoryController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
+
+        public IActionResult Index()
+        {
+            
+            // <Category> is the Dbset name for the model
+            IEnumerable<Category> objCategoryList = _db.Categories; //imported model_name
+            return View(objCategoryList);
+        }
+
+        // End
+    }
+
+--------------------------------------------------------------------------
+2. /Views/Category/Index.cshtml
+--------------------------------------------------------------------------
+
+	<! –– Start ––>
+	@model IEnumerable<Category>
+	<! –– In Above line, We captured the model which is being used ––>
+	@{
+		ViewData["Title"] = "Index";
+	}
+
+	<h2>Index</h2>
+
+	<table class="table table-bordered" style="width:30%;">
+		<tr>
+			<th>Name</th>
+			<th>DisplayOrder</th>
+		</tr>
+		<! –– FOREACH LOOP ––>
+		@foreach (var obj in Model) //This model refers to "CategoryController.cs"
+		{
+			<tr>
+				<! –– Name, DisplayOrder etc get/set properties have been set inside "Category.cs" Model  ––>
+				<td width="50%">@obj.Name</td>
+				<td width="50%">@obj.DisplayOrder</td>
+			</tr>
+
+		}
+
+	</table>
+
+<! –– End ––>
+
+
+

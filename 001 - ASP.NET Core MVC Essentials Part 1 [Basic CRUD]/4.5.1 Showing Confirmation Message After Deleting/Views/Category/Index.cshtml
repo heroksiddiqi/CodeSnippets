@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Category>
+<! –– In Above line, We captured the model which is being used ––>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if(TempData["confirmation_msg"] != null)
+{
+    <h3 class="text-info">@TempData["confirmation_msg"]</h3>
+}
+
+<h2>Category List</h2> <br />
+
+<! –– Start ––>
+
+<p>
+    <a asp-controller="Category" asp-action="Create" class="btn btn-success">
+        Add New Category
+    </a> 
+</p>
+
+<! –– End ––>
+
+<table class="table table-bordered" style="width:30%;">
+    <tr>
+        <th>Name</th>
+        <th>DisplayOrder</th>
+        <th>Opertions</th>
+    </tr>
+    <! –– FOREACH LOOP ––>
+    @foreach (var obj in Model)
+    {
+    <tr>
+        <td width="50%">@obj.Name</td>
+        <td width="50%">@obj.DisplayOrder</td>
+        <td>
+            <a asp-controller="Category" asp-action="Edit" asp-route-Id="@obj.Id">Edit</a>
+        </td>
+        <td>
+            <a asp-controller="Category" asp-action="Delete" asp-route-Id="@obj.Id">Delete</a>
+        </td>
+    </tr>
+
+    }
+
+</table>
+
+<! –– End ––>
+
+

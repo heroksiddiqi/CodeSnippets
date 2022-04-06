@@ -1,0 +1,63 @@
+--------------------------------------------------------------------------
+1. /Controllers/CategoryController.cs
+--------------------------------------------------------------------------
+
+	// GET for Delete
+        public IActionResult Delete(int? Id)
+        {
+            if (Id == null || Id == 0)
+            {
+                return NotFound();
+            }
+
+            var categoryFromDb = _db.Categories.Find(Id);
+
+            if (categoryFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(categoryFromDb);
+        }
+
+    // POST for Delete
+        [HttpPost,ActionName("DeletePOST")]
+        /* "ActionName" is optional if "asp-action"
+        is already set in the form*/
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePOST(int? Id)
+        {
+            var any_name_obj = _db.Categories.Find(Id);
+
+            if (any_name_obj == null)
+            {
+                return NotFound();
+            }
+
+            _db.Categories.Remove(any_name_obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+		
+
+--------------------------------------------------------------------------
+2. /Views/Category/Delete.cshtml
+--------------------------------------------------------------------------
+
+<h2>Delete Category</h2>
+<form method="post" asp-action="DeletePOST">
+    <input asp-for="Id" hidden="hidden" />
+    <label asp-for="Name"></label> <br />
+    <input asp-for="Name" disabled="disabled" class="form-control" />
+    <br /><br />
+
+    <label asp-for="DisplayOrder"></label> <br />
+    <input asp-for="DisplayOrder" disabled="disabled" class="form-control" />
+    <br /><br />
+    <button type="submit" class="btn btn-primary">Delete</button>
+</form>
+
+--------------------------------------------------------------------------
+
+	
+	

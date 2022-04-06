@@ -1,0 +1,25 @@
+﻿
+@model Category
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Edit Category</h2>
+<!-- This DIV is to show All Form Validation Error Messages, if any occurs -->
+<div asp-validation-summary="All"></div>
+<form method="post">
+    <label asp-for="Name"></label> <br />
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span> <br /><br />
+
+    <label asp-for="DisplayOrder"></label> <br />
+    <input asp-for="DisplayOrder" class="form-control" />
+    <span asp-validation-for="DisplayOrder" class="text-danger"></span><br /><br />
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

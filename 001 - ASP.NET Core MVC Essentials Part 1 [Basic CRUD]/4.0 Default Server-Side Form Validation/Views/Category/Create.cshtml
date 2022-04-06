@@ -1,0 +1,19 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create Category</h2>
+<form method="post">
+    <label asp-for="Name"></label> <br />
+    <input asp-for="Name" class="form-control" />
+        <!-- Next line is used for Server-Side Form Validation Output Text -->
+    <span asp-validation-for="Name" class="text-danger"></span> <br />
+
+    <label asp-for="DisplayOrder"></label> <br />
+    <input asp-for="DisplayOrder" class="form-control" /> 
+        <!-- Next line is Another Form Validation Tag Helper For DisplayOrder -->
+    <span asp-validation-for="DisplayOrder" class="text-danger"></span><br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

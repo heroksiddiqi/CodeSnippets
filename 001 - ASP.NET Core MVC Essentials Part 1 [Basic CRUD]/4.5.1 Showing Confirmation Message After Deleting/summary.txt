@@ -1,0 +1,38 @@
+--------------------------------------------------------------------------
+1. /Controllers/CategoryController.cs
+--------------------------------------------------------------------------
+
+ // POST for Delete
+        [HttpPost,ActionName("DeletePOST")]
+        /* "ActionName" is optional if "asp-action"
+        is already set in the form*/
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePOST(int? Id)
+        {
+            var any_name_obj = _db.Categories.Find(Id);
+
+            if (any_name_obj == null)
+            {
+                return NotFound();
+            }
+            _db.Categories.Remove(any_name_obj);
+            _db.SaveChanges();
+			
+            //SYNTAX: TempData["Key_Name"] = "Output Message" 
+            TempData["confirmation_msg"] = "Deleted Successfully";
+            return RedirectToAction("Index");
+        }
+    }
+
+		
+
+--------------------------------------------------------------------------
+2. /Views/Category/Index.cshtml
+--------------------------------------------------------------------------
+
+@if(TempData["confirmation_msg"] != null)
+{
+    <h3 class="text-info">@TempData["confirmation_msg"]</h3>
+}
+
+--------------------------------------------------------------------------

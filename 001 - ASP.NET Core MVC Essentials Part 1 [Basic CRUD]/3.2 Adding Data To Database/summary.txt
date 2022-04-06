@@ -1,0 +1,51 @@
+--------------------------------------------------------------------------
+1. /Views/Category/Index.cshtml
+--------------------------------------------------------------------------
+	
+	<p>
+		<a asp-controller="Category" asp-action="Create" class="btn btn-success">Add New Categor</a> 
+	</p>
+
+
+--------------------------------------------------------------------------
+2. /Controllers/CategoryController.cs
+--------------------------------------------------------------------------
+
+	public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Category any_name_obj) 
+        {
+            _db.Categories.Add(any_name_obj);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+--------------------------------------------------------------------------
+3. /Views/Category/Create.cshtml
+--------------------------------------------------------------------------
+	
+	@model Category
+	@{
+		ViewData["Title"] = "Create";
+	}
+
+	<h2>Create Category</h2>
+
+	<form method="post">
+		<label asp-for="Name"></label>
+
+		<input asp-for="Name" class="form-control" /> <br />
+
+		<label asp-for="DisplayOrder"></label>
+
+		<input asp-for="DisplayOrder" class="form-control" /> <br />
+
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+

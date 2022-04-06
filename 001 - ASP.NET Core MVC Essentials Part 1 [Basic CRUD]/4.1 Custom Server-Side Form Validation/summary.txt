@@ -1,0 +1,56 @@
+--------------------------------------------------------------------------
+1. /Controllers/CategoryController.cs
+--------------------------------------------------------------------------
+
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Category any_name_obj) 
+        {
+			// Start
+			
+            // Let's say we'll not let users to put same name and DisplayOrder
+            if (any_name_obj.Name == any_name_obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("Name", "Name and Order cannot be same.");
+                ModelState.AddModelError("DisplayOrder", "Name and Order cannot be same.");
+            }
+            
+			// End
+			
+            // To check is Form Datas are submitted correctly
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Add(any_name_obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(any_name_obj);
+            }  
+        }
+	
+
+--------------------------------------------------------------------------
+2. /Views/Category/Create.cshtml
+--------------------------------------------------------------------------
+	
+	@model Category
+	@{
+		ViewData["Title"] = "Create";
+	}
+
+	<h2>Create Category</h2>
+		<!-- This DIV is to show All Form Validation Error Messages, if any occurs -->
+	<div asp-validation-summary="All"></div>
+	<form method="post">
+		<label asp-for="Name"></label> <br />
+		<input asp-for="Name" class="form-control" />
+		<span asp-validation-for="Name" class="text-danger"></span> <br />
+
+		<label asp-for="DisplayOrder"></label> <br />
+		<input asp-for="DisplayOrder" class="form-control" />
+		<span asp-validation-for="DisplayOrder" class="text-danger"></span><br />
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+

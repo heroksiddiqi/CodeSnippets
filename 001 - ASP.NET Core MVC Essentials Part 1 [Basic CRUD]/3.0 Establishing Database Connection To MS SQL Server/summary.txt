@@ -1,0 +1,65 @@
+--------------------------------------------------------------------------
+1. Models/Category.cs
+--------------------------------------------------------------------------
+	
+	//Start
+
+    public class Category
+    {
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+
+        public int DisplayOrder { get; set; }
+
+        public DateTime CreatedDateTime { get; set; }
+    }
+
+    // End
+
+--------------------------------------------------------------------------
+2. apsettings.json
+--------------------------------------------------------------------------
+
+	  //Start
+
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=testdb;Integrated Security=True;Pooling=False"
+  }
+
+  //End
+  
+--------------------------------------------------------------------------
+3. Data/ApplicationDbContext.cs
+--------------------------------------------------------------------------	
+
+	//Start
+
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
+        public DbSet<Category> Categories { get; set; }
+    }
+   
+    //End
+	
+
+--------------------------------------------------------------------------
+4. Startup.cs
+--------------------------------------------------------------------------
+
+	// Start >> Herok DbContext Configuration + Imported EntityFrameworkCOre
+
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
+    //End
+	
+--------------------------------------------------------------------------
+5. Migration Commands
+--------------------------------------------------------------------------
+>> add-migration First_Migration
+>> update-database
